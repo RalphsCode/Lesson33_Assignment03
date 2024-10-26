@@ -112,4 +112,28 @@ router.post("/:id/add-reservation/", async function(req, res, next) {
   }
 });
 
+
+/** Show form to edit a reservation. */
+
+router.get("/reservation/:id/edit/", async function(req, res, next) {
+  try {
+    const reservation_data = await Reservation.getReservation(req.params.id);
+    const reservation = new Reservation(reservation_data);
+
+    res.render("reservation_edit_form.html", { reservation });
+  } catch (err) {
+    return next(err);
+  }
+});
+
+
+/** Handle Editing a reservation */
+router.patch("/reservation/:id/edit/"), async function(req, res, next) {
+  try {
+
+  } catch(err) {
+    return next(err);
+  }
+}
+
 module.exports = router;

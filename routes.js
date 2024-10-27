@@ -128,12 +128,21 @@ router.get("/reservation/:id/edit/", async function(req, res, next) {
 
 
 /** Handle Editing a reservation */
-router.patch("/reservation/:id/edit/"), async function(req, res, next) {
+router.post("/reservation/:id/edit/", async function(req, res, next) {
   try {
+    const reservation_data = await Reservation.getReservation(req.params.id);
+    const reservation = new Reservation(reservation_data);
+    // OBJECT: customerId, numGuests, startAt, notes
+    // DB: customer_id, num_guests, start_at, notes
+    reservation.numGuests = req.body.numGuests;
+    reservation.startAt = req.body.startAt;
+    reservation.notes = req.body.notes;
+    await reservation.save();
 
-  } catch(err) {
+    return res.redirect(`/${reservation.customerId}`);
+  } catch (err) {
     return next(err);
   }
-}
+})
 
 module.exports = router;
